@@ -9,20 +9,16 @@ import React from "react";
 const AddTransformationTypePage = async ({
   params: { type },
 }: SearchParamProps) => {
-  if (!transformationTypes[type]) {
-    redirect("/404");
-    return;
-  }
-
   const { userId } = await auth();
+  console.log("Retrieved User ID:", userId);
   if (!userId) redirect("/sign-in");
 
   let user;
   try {
     user = await getUserById(userId);
+    console.log("Fetched User:", user);
   } catch (error) {
     console.error("Error fetching user:", error);
-    redirect("/error"); // Redirect to an error page or handle gracefully
     return;
   }
 
