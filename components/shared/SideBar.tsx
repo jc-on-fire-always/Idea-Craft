@@ -19,6 +19,7 @@ const SideBar = () => {
             alt="logo"
             width={180}
             height={28}
+            priority
           />
         </Link>
         <nav className="sidebar-nav">

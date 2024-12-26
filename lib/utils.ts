@@ -13,19 +13,24 @@ export function cn(...inputs: ClassValue[]) {
 // ERROR HANDLER
 export const handleError = (error: unknown) => {
   if (error instanceof Error) {
-    // This is a native JavaScript error (e.g., TypeError, RangeError)
-    console.error(error.message);
+    // Handle JavaScript errors with a message property
+    console.error("Error:", error.message);
     throw new Error(`Error: ${error.message}`);
   } else if (typeof error === "string") {
-    // This is a string error message
-    console.error(error);
+    // Handle errors passed as a plain string
+    console.error("Error:", error);
     throw new Error(`Error: ${error}`);
-  } else {
-    // This is an unknown type of error
-    console.error(error);
+  } else if (typeof error === "object" && error !== null) {
+    // Handle objects that might not be instances of Error
+    console.error("Unknown error object:", error);
     throw new Error(`Unknown error: ${JSON.stringify(error)}`);
+  } else {
+    // Handle other types (e.g., null, undefined, numbers)
+    console.error("Unknown error:", error);
+    throw new Error(`Unknown error: ${String(error)}`);
   }
 };
+
 
 // PLACEHOLDER LOADER - while image is transforming
 const shimmer = (w: number, h: number) => `
