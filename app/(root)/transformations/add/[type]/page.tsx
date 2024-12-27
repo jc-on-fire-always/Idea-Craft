@@ -1,4 +1,3 @@
-"use client";
 import Header from "@/components/shared/Header";
 import TransformationForm from "@/components/shared/TransformationForm";
 import { transformationTypes } from "@/constants";
