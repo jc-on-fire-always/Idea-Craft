@@ -1,43 +1,33 @@
+"use client";
 import Header from "@/components/shared/Header";
 import TransformationForm from "@/components/shared/TransformationForm";
 import { transformationTypes } from "@/constants";
 import { getUserById } from "@/lib/actions/user.actions";
-import { auth } from "@clerk/nextjs/server";
+import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import React from "react";
 
 const AddTransformationTypePage = async ({
   params: { type },
 }: SearchParamProps) => {
-  const { userId } = await auth();
-  console.log("Retrieved User ID:", userId);
+  const { userId } = useAuth();
+  const transformation = transformationTypes[type];
+
   if (!userId) redirect("/sign-in");
 
-  let user;
-  try {
-    user = await getUserById(userId);
-    console.log("Fetched User:", user);
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    return;
-  }
-
-  if (!user) {
-    console.error("User not found");
-    redirect("/sign-in");
-    return;
-  }
-  const transformation = transformationTypes[type];
+  const user = await getUserById(userId);
 
   return (
     <>
       <Header title={transformation.title} subtitle={transformation.subTitle} />
-      <TransformationForm
-        action="Add"
-        userId={user._id}
-        type={transformation.type as TransformationTypeKey}
-        creditBalance={user.creditBalance}
-      />
+
+      <section className="mt-10">
+        <TransformationForm
+          action="Add"
+          userId={user._id}
+          type={transformation.type as TransformationTypeKey}
+          creditBalance={user.creditBalance}
+        />
+      </section>
     </>
   );
 };
