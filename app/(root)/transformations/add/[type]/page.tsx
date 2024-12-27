@@ -9,6 +9,12 @@ import { User } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
+interface SearchParamProps {
+  params: {
+    type: TransformationTypeKey;
+  };
+}
+
 const AddTransformationTypePage = ({ params: { type } }: SearchParamProps) => {
   const { userId } = useAuth(); // Correctly call `useAuth` synchronously
   const [user, setUser] = useState<User | null>(null); // State to hold user data
